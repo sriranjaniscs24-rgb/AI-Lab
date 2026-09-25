@@ -1,0 +1,84 @@
+import random
+
+# Step 1: Initialize the board
+board = [' '] * 9
+
+# Function to display the board
+def display_board():
+    print()
+    print(board[0], "|", board[1], "|", board[2])
+    print("--+---+--")
+    print(board[3], "|", board[4], "|", board[5])
+    print("--+---+--")
+    print(board[6], "|", board[7], "|", board[8])
+    print()
+
+
+# Function to check whether there is a winner
+def check_win(player):
+    win_combinations = [
+        (0, 1, 2),
+        (3, 4, 5),
+        (6, 7, 8),
+        (0, 3, 6),
+        (1, 4, 7),
+        (2, 5, 8),
+        (0, 4, 8),
+        (2, 4, 6)
+    ]
+
+    for a, b, c in win_combinations:
+        if board[a] == board[b] == board[c] == player:
+            return True
+
+    return False
+
+
+# Step 2: Start the game
+print("TIC TAC TOE")
+print("You are X")
+print("Enter position from 1 to 9")
+
+display_board()
+
+for i in range(9):
+
+    # Player's turn
+    while True:
+        choice = int(input("Enter your position (1-9): ")) - 1
+
+        if choice < 0 or choice > 8:
+            print("Invalid position! Try again.")
+        elif board[choice] != ' ':
+            print("Position already filled! Try again.")
+        else:
+            board[choice] = 'X'
+            break
+
+    display_board()
+
+    # Check if player wins
+    if check_win('X'):
+        print("You win!")
+        break
+
+    # Check for draw
+    if i == 8:
+        print("Draw!")
+        break
+
+    # Computer's turn
+    while True:
+        computer_choice = random.randint(0, 8)
+
+        if board[computer_choice] == ' ':
+            board[computer_choice] = 'O'
+            break
+
+    print("Computer's turn:")
+    display_board()
+
+    # Check if computer wins
+    if check_win('O'):
+        print("Computer wins!")
+        break
