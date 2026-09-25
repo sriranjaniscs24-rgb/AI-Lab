@@ -1,0 +1,50 @@
+# Goal-Based Vacuum Cleaner Agent
+
+# Initialize rooms
+room_A = "dirty"
+room_B = "dirty"
+
+# Place vacuum cleaner in a room
+current_room = input("Enter vacuum cleaner position (A/B): ").upper()
+
+# Goal: Both rooms should be clean
+goal_achieved = False
+
+while not goal_achieved:
+
+    # Check the current room
+    if current_room == "A":
+        print("\nVacuum cleaner is in Room A")
+
+        if room_A == "dirty":
+            print("Room A is dirty")
+            print("Sucking the dirt...")
+            room_A = "clean"
+        else:
+            print("Room A is already clean")
+
+        # Move to the other room
+        print("Moving to Room B")
+        current_room = "B"
+
+    else:
+        print("\nVacuum cleaner is in Room B")
+
+        if room_B == "dirty":
+            print("Room B is dirty")
+            print("Sucking the dirt...")
+            room_B = "clean"
+        else:
+            print("Room B is already clean")
+
+        # Move to the other room
+        print("Moving to Room A")
+        current_room = "A"
+
+    # Check whether both rooms are clean
+    if room_A == "clean" and room_B == "clean":
+        goal_achieved = True
+
+# Goal achieved
+print("\nGoal achieved!")
+print("Both rooms are clean.")
