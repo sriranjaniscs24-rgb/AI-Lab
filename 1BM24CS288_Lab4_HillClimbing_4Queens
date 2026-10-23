@@ -1,0 +1,67 @@
+def calculate_cost(state):
+    cost = 0
+    n = len(state)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if state[i] == state[j] or abs(state[i] - state[j]) == abs(i - j):
+                cost += 1
+    return cost
+
+def print_board(state):
+    n = len(state)
+    for row in range(n):
+        for col in range(n):
+            if state[col] == row:
+                print("Q", end=" ")
+            else:
+                print(".", end=" ")
+        print()
+    print()
+
+def get_neighbors(state):
+    neighbors = []
+    n = len(state)
+    for i in range(n):
+        for j in range(i + 1, n):
+            neighbor = state.copy()
+            neighbor[i], neighbor[j] = neighbor[j], neighbor[i]
+            neighbors.append((neighbor, i, j))
+    return neighbors
+
+def hill_climbing(initial_state):
+    current = initial_state[:]
+    step = 1
+    while True:
+        current_cost = calculate_cost(current)
+        print("Iteration:", step)
+        print("Current state:", current)
+        print("Current cost:", current_cost)
+        print("Current board:")
+        print_board(current)
+
+        if current_cost == 0:
+            print("Goal state reached!")
+            return current
+        neighbors = get_neighbors(current)
+        neighbors.sort(key=lambda item: (
+            calculate_cost(item[0]), item[1], item[2]
+        ))
+        best_state, i, j = neighbors[0]
+        best_cost = calculate_cost(best_state)
+        print("Best neighbor:", best_state)
+        print("Best neighbor cost:", best_cost)
+        print("Best neighbor board:")
+        print_board(best_state)
+        if best_cost >= current_cost:
+            print("Local minimum reached.")
+            return current
+        current = best_state
+        step += 1
+
+initial_state = [3, 1, 2, 0]
+solution = hill_climbing(initial_state)
+
+print("Final solution:", solution)
+print("Final cost:", calculate_cost(solution))
+print("Final board:")
+print_board(solution)
